@@ -23,12 +23,20 @@ public class LineMath {
 		if(a0 == 0 && a1 == 0)
 		{
 			// b*y = z
-			return true;
+			double dis = c0 / b0 - c1 / b1;
+			if(dis < 1e-8)
+				return false;	// same line
+			else
+				return true;
 		}
 		if(b0 == 0 && b1 == 0)
 		{
 			// a*x = z
-			return true;
+			double dis = c0 / a0 - c1 / a1;
+			if(dis < 1e-8)
+				return false;	// same line
+			else
+				return true;
 		}
 		
 		// intercept
@@ -40,11 +48,16 @@ public class LineMath {
 		double dis1 = k2 - k3;
 		if(dis0 < 0) dis0 = -dis0;
 		if(dis1 < 0) dis1 = -dis1;
-		if(dis0 < 1e-8 && dis1 < 1e-8)
-			return true;
+		if(!(dis0 < 1e-8 && dis1 < 1e-8))
+			return false;
 		
-		// 
-		return false;
+		// check if the same line
+		double dis = c0 / a0 - c1 / a1;
+		if(dis < 1e-8)
+			return false;	// same line
+		else
+			return true;
+
 	}
 
 	
@@ -53,12 +66,10 @@ public class LineMath {
 		if(!(isLine(a0, b0, c0) && isLine(a1, b1, c1))) {
 			return false;
 		}
-		if(!isParallel(a0, b0, c0, a1, b1, c1)) {
-			return false;
-		}
 		
 		//
 		double div0, div1;
+		double dis = 0;
 		if(a0 == 0 && a1 == 0) {
 			div0 = c0 / b0;
 			div1 = c1 / b1;
@@ -66,9 +77,11 @@ public class LineMath {
 		else {
 			div0 = c0 / a0;
 			div1 = c1 / a1;
+			dis = b0 / a0 - b1 / a1;
 		}
-		double dis = div0 - div1;
+		double disK = div0 - div1;
 		if(dis < 0) dis = -dis;
-		return dis < 1e-8;
+		if(disK < 0) disK = -disK;
+		return dis < 1e-8 && disK < 1e-8;
 	}
 }
