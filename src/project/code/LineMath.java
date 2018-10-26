@@ -46,19 +46,7 @@ public class LineMath {
 		// 
 		return false;
 	}
-	
-	public Point evalCrossPoint(double a0, double b0, double c0, 
-			double a1, double b1, double c1) {
-		if(!(isLine(a0,b0,c0) && isLine(a1, b1, c1))) {
-			return null;
-		}
-		if(isParallel(a0,b0,c0,a1,b1,c1)) {
-			return null;
-		}
-		double x = (c0*b1 - c1*b0) / (a0*b1 - a1*b0);
-		double y = (c0*a1 - c1*a0) / (b0*a1 - b1*a0);
-		return new Point(x,y);
-	}
+
 	
 	public boolean isSameLine(double a0, double b0, double c0,
 			double a1, double b1, double c1) {

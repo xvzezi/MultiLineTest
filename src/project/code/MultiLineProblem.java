@@ -20,47 +20,25 @@ public class MultiLineProblem {
 	public MultiLineProblem() {
 		this.lm = new LineMath();
 	}
-	public Double evalDistanceFromOrigin(Point p) {
-		if(p == null) return null;
-		double s_distance = p.getX()*p.getX() + p.getY()*p.getY();
-		return Math.sqrt(s_distance);
-	}
 	
-	public Double evalFarthestCrossPointOnThreeLines(
-			double a0, double b0, double c0,
-			double a1, double b1, double c1,
-			double a2, double b2, double c2) {
-		// judge if lines
-		if(!(lm.isLine(a0,b0,c0) && 
-				lm.isLine(a1, b1, c1) && 
-				lm.isLine(a2, b2, c2))) {
+	
+	public Point evalCrossPoint(double a0, double b0, double c0, 
+			double a1, double b1, double c1) {
+		if(!(lm.isLine(a0,b0,c0) && lm.isLine(a1, b1, c1))) {
 			return null;
 		}
-		
-		// get the cross points
-		Point p0 = lm.evalCrossPoint(a0, b0, c0, a1, b1, c1);
-		Point p1 = lm.evalCrossPoint(a0, b0, c0, a2, b2, c2);
-		Point p2 = lm.evalCrossPoint(a2, b2, c2, a1, b1, c1);
-		if(p0 == null && p1 == null && p2 == null)
-		{
+		if(lm.isParallel(a0,b0,c0,a1,b1,c1)) {
 			return null;
 		}
-		
-		// get the distance 
-		Double dis0 = this.evalDistanceFromOrigin(p0);
-		Double dis1 = this.evalDistanceFromOrigin(p1);
-		Double dis2 = this.evalDistanceFromOrigin(p2);
-		if(dis0 == null) dis0 = 0.0;
-		if(dis1 == null) dis1 = 0.0;
-		if(dis2 == null) dis2 = 0.0;
-		double maxResult = dis0;
-		if(maxResult < dis1) maxResult = dis1;
-		if(maxResult < dis2) maxResult = dis2;
-		
-		return maxResult;
+		if(lm.isSameLine(a0, b0, c0, a1, b1, c1)) {
+			return null;
+		}
+		double x = (c0*b1 - c1*b0) / (a0*b1 - a1*b0);
+		double y = (c0*a1 - c1*a0) / (b0*a1 - b1*a0);
+		return new Point(x,y);
 	}
 
-	public boolean isRightriangle(
+	public boolean isRightTriangle(
 			double a0, double b0, double c0,
 			double a1, double b1, double c1,
 			double a2, double b2, double c2) {
