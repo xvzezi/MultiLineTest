@@ -60,25 +60,24 @@ public class MultiLineProblem {
 		return maxResult;
 	}
 
-	public String problem2(double a0, double b0, double c0,
+	public boolean isRightriangle(
+			double a0, double b0, double c0,
 			double a1, double b1, double c1,
 			double a2, double b2, double c2) {
-		Point point1 = lm.evalCrossPoint(a0, b0, c0, a1, b1, c1);
-		Point point2 = lm.evalCrossPoint(a0, b0, c0, a2, b2, c2);
-		Point point3 = lm.evalCrossPoint(a1, b1, c1, a2, b2, c2);
-		if (point1 == null || point2 == null || point3 == null)
-			return "非三角形";
-		double e1 = (point1.getX() - point2.getX()) * (point1.getX() - point2.getX()) +
-				(point1.getY() - point2.getY()) * (point1.getY() - point2.getY());
-		double e2 = (point1.getX() - point3.getX()) * (point1.getX() - point3.getX()) +
-				(point1.getY() - point3.getY()) * (point1.getY() - point3.getY());
-		double e3 = (point2.getX() - point3.getX()) * (point2.getX() - point3.getX()) +
-				(point2.getY() - point3.getY()) * (point2.getY() - point3.getY());
-		if (e1 == e2 && e1 == e3)
-			return "等边三角形";
-		else if (e1 == e2 || e1 == e3 || e2 == e3)
-			return "等腰三角形";
-		return "一般三角形";
+		// judge if lines
+		if(!(lm.isLine(a0,b0,c0) && 
+				lm.isLine(a1, b1, c1) && 
+				lm.isLine(a2, b2, c2))) {
+			return false;
+		}
+		if (lm.isParallel(a0, b0, c0, a1, b1, c1) || 
+				lm.isParallel(a0, b0, c0, a2, b2, c2) || 
+				lm.isParallel(a1, b1, c1, a2, b2, c2))
+			return false;
+		if (a0 * a1 + b0 * b1 == 0 || a0 * a2 + b0 * b2 == 0 || a1 * a2 + b1 * b2 == 0)
+			return true;
+		return false;
+		
 	
 	}
 	
