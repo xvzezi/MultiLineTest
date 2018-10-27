@@ -10,10 +10,11 @@
  * 以生产100产品；而周末为了保养，每人每天生产量降低至50.
  * 	第二部分是生产成本，由市场临时决定。
  * 	销售部分的成本来自于销售人员。工作日日薪为200，周末为250；同
- * 样，工作日工作人数超过500人，日薪升为250，周末工作人数超过300，
+ * 样，工作日工作人数超过400人，日薪升为250，周末工作人数超过250，
  * 日薪升为280。工作人员在工作日的销量为平均25，在周末为75.
  * 	销售模式方面分为两种。一种是销售自己生产的物品；另一种是代理
  * 其他工厂产品，而本公司不生产。销售的价格由市场临时决定。
+ * 	每种岗位的雇佣人数不得超过500.
  */
 
 package project.code;
@@ -22,7 +23,7 @@ package project.code;
 /**
  * Company Financial Manager
  * @author Xu Zezi
- * @version 0.1
+ * @version 0.5
  * Description:
  * 	1. Compute the producing man power cost
  * 	2. Compute the selling man power cost
@@ -53,8 +54,9 @@ public class ComFinManager {
 	//	private static int manPowerLimitOnSelling = 500;
 	private static int weekdayProduceManLimit = 300;
 	private static int weekendProduceManLimit = 100;
-	private static int weekdaySellingManLimit = 500;
-	private static int weekendSellingManLimit = 300;
+	private static int weekdaySellingManLimit = 400;
+	private static int weekendSellingManLimit = 250;
+	private static int amountLimit = 500;
 		
 	// runtime input
 	private int manWeekdayProduce = 0;
@@ -80,10 +82,10 @@ public class ComFinManager {
 	 * 	On 2018, we can compute the man power cost each month on producing.
 	 */
 	public int produceManPowerCost(int manWeekday, int manWeekend, int month) throws Exception {
-		if(manWeekday < 0) {
+		if(manWeekday < 0 || manWeekday > amountLimit) {
 			throw new Exception("Invalid man amount");
 		}
-		if(manWeekend < 0) {
+		if(manWeekend < 0 || manWeekend > amountLimit) {
 			throw new Exception("Invalid man amount");
 		}
 
@@ -124,10 +126,10 @@ public class ComFinManager {
 	 * 	In 2018, we can compute the man power cost each month on selling.
 	 */
 	public int sellingManPowerCost(int manWeekday, int manWeekend, int month) throws Exception{
-		if(manWeekday < 0) {
+		if(manWeekday < 0 || manWeekday > amountLimit) {
 			throw new Exception("Invalid man amount");
 		}
-		if(manWeekend < 0) {
+		if(manWeekend < 0 || manWeekend > amountLimit) {
 			throw new Exception("Invalid man amount");
 		}
 		if(month < 0 || month > 11) {
