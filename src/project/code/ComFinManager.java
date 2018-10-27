@@ -4,13 +4,14 @@
  * 毛利。
  * 	在公司中，分为生产与销售两个部分。
  * 	生产部分的成本由两部分决定。第一部分是人力资源，分为在工作日
- * 工作的一批与周末工作的一批。在工作日工作日薪为70，在周末为90；
- * 而由于公司规划限制，两批人次总数不得超过200人。工作日，每个熟
- * 练工人可以生产100产品；而周末为了保养，每人每天生产量降低至50.
- * 第二部分是生产成本，由市场临时决定。
- * 	销售部分的成本来自于销售人员。工作日日薪为100，周末为150；同
- * 样由于规模限制，人数不得超过500人。工作人员在工作日的销量为平
- * 均25，在周末为75.
+ * 工作的一批与周末工作的一批。在工作日工作日薪为100，在周末为120；
+ * 当工作日工作人人数超过300人时，根据相关规定需要涨薪，日薪为120，
+ * 当周末工作人数超过100人时，日薪涨为150。工作日，每个熟练工人可
+ * 以生产100产品；而周末为了保养，每人每天生产量降低至50.
+ * 	第二部分是生产成本，由市场临时决定。
+ * 	销售部分的成本来自于销售人员。工作日日薪为200，周末为250；同
+ * 样，工作日工作人数超过500人，日薪升为250，周末工作人数超过300，
+ * 日薪升为280。工作人员在工作日的销量为平均25，在周末为75.
  * 	销售模式方面分为两种。一种是销售自己生产的物品；另一种是代理
  * 其他工厂产品，而本公司不生产。销售的价格由市场临时决定。
  */
@@ -32,10 +33,14 @@ public class ComFinManager {
 	private static int year = 2018;
 	
 	// wages
-	private static int weekdayProduceWage = 70;
-	private static int weekendProduceWage = 90;
-	private static int weekdaySellingWage = 100;
-	private static int weekendSellingWage = 150;
+	private static int weekdayProduceWage = 100;
+	private static int weekendProduceWage = 120;
+	private static int weekdayProduceOverWage = 120;
+	private static int weekendProduceOverWage = 150;
+	private static int weekdaySellingWage = 200;
+	private static int weekendSellingWage = 250;
+	private static int weekdaySellingOverWage = 250;
+	private static int weekendSellingOverWage = 280;
 	
 	// workload 
 	private static int weekdayProduceAmount = 100;
@@ -44,9 +49,13 @@ public class ComFinManager {
 	private static int weekendSellingAmount = 75;
 	
 	// man power limit
-	private static int manPowerLimitOnProduce = 200;
-	private static int manPowerLimitOnSelling = 500;
-	
+	//	private static int manPowerLimitOnProduce = 200;
+	//	private static int manPowerLimitOnSelling = 500;
+	private static int weekdayProduceManLimit = 300;
+	private static int weekendProduceManLimit = 100;
+	private static int weekdaySellingManLimit = 500;
+	private static int weekendSellingManLimit = 300;
+		
 	// runtime input
 	private int manWeekdayProduce = 0;
 	private int manWeekendProduce = 0;
@@ -77,9 +86,7 @@ public class ComFinManager {
 		if(manWeekend < 0) {
 			throw new Exception("Invalid man amount");
 		}
-		if(manWeekday + manWeekend > manPowerLimitOnProduce) {
-			throw new Exception("Too much man power");
-		}
+
 		if(month < 0 || month > 11) {
 			throw new Exception("Month out of range");
 		}
@@ -88,8 +95,18 @@ public class ComFinManager {
 		int days = days_stub(month);
 		int weekends = days - weekdays;
 		
-		int weekdayCost = weekdays * manWeekday * weekdayProduceWage;
-		int weekendCost = weekends * manWeekend * weekendProduceWage;
+		int weekdayWage = weekdayProduceWage;
+		int weekendWage = weekendProduceWage;
+		
+		if(manWeekday > weekdayProduceManLimit) {
+			weekdayWage = weekdayProduceOverWage;
+		}
+		if(manWeekend > weekendProduceManLimit) {
+			weekendWage = weekendProduceOverWage;
+		}
+		
+		int weekdayCost = weekdays * manWeekday * weekdayWage;
+		int weekendCost = weekends * manWeekend * weekendWage;
 		
 		manWeekdayProduce = manWeekday;
 		manWeekendProduce = manWeekend;
@@ -113,9 +130,6 @@ public class ComFinManager {
 		if(manWeekend < 0) {
 			throw new Exception("Invalid man amount");
 		}
-		if(manWeekday + manWeekend > manPowerLimitOnSelling) {
-			throw new Exception("Too much man power");
-		}
 		if(month < 0 || month > 11) {
 			throw new Exception("Month out of range");
 		}
@@ -124,8 +138,18 @@ public class ComFinManager {
 		int days = days_stub(month);
 		int weekends = days - weekdays;
 		
-		int weekdayCost = weekdays * manWeekday * weekdaySellingWage;
-		int weekendCost = weekends * manWeekend * weekendSellingWage;
+		int weekdayWage = weekdaySellingWage;
+		int weekendWage = weekendSellingWage;
+		
+		if(manWeekday > weekdaySellingManLimit) {
+			weekdayWage = weekdaySellingOverWage;
+		}
+		if(manWeekend > weekendSellingManLimit) {
+			weekendWage = weekendSellingOverWage;
+		}
+		
+		int weekdayCost = weekdays * manWeekday * weekdayWage;
+		int weekendCost = weekends * manWeekend * weekendWage;
 		
 		manWeekdaySelling = manWeekday;
 		manWeekendSelling = manWeekend;
