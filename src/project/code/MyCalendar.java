@@ -2,20 +2,20 @@ package project.code;
 
 public class MyCalendar {
 	
-	public static boolean isLeapYear(int year) {
+	public boolean isLeapYear(int year) {
 		if(year % 4 == 0 && year % 100 != 0 || year % 400 == 0)
 			return true;
 		else 
 			return false;
 	}
 	
-	public static int daysOfMonth(int year, int month) throws Exception {
+	public int daysOfMonth(int year, int month) throws Exception {
 		month += 1;
 		switch(month) {
 		case 1:
 			return 31;
 		case 2:
-			if (isLeapYear(year))
+			if (this.isLeapYear(year))
 				return 29;
 			else
 				return 28;
@@ -44,7 +44,7 @@ public class MyCalendar {
 		}
 	}
 	
-	public static int weekendsOfMonth(int year, int month) throws Exception {
+	public int weekendsOfMonth(int year, int month) throws Exception {
 		int days = daysOfMonth(year, month);
 		int weekends = 0;
 		for(int i = 1; i <= days; i ++) {
@@ -64,7 +64,7 @@ public class MyCalendar {
 	 * @param day
 	 * @return
 	 */
-	public static int getWeek(int year,int month,int day){
+	public int getWeek(int year,int month,int day){
 		month += 1;
 		while(year < 1700 || year > 2099){
 			if(year < 1700){
