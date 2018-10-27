@@ -12,8 +12,7 @@
  * 	销售部分的成本来自于销售人员。工作日日薪为200，周末为250；同
  * 样，工作日工作人数超过400人，日薪升为250，周末工作人数超过250，
  * 日薪升为280。工作人员在工作日的销量为平均25，在周末为75.
- * 	销售模式方面分为两种。一种是销售自己生产的物品；另一种是代理
- * 其他工厂产品，而本公司不生产,当。销售的价格由市场临时决定。
+ * 	销售模式方面是销售自己生产的物品。销售的价格由市场临时决定。
  * 	每种岗位的雇佣人数不得超过500.
  */
 
@@ -191,40 +190,4 @@ public class ComFinManager {
 		return profit;
 	}
 	
-	/**
-	 * Profits when act as an agent
-	 * @param amount : amount of goods to store
-	 * @param cost : cost per products
-	 * @param price : price per products
-	 * @param month : the target month
-	 * @return the margin profits
-	 */
-	public double profitsAgent(int amount, double cost, double price, int month) throws Exception{
-		if(amount < 0) {
-			throw new Exception("Invalid amount");
-		}
-		if(cost < 0) {
-			throw new Exception("Invalid cost");
-		}
-		if(price < 0) {
-			throw new Exception("Invalid price");
-		}
-		if(month < 0 || month > 11) {
-			throw new Exception("Month out of range");
-		}
-		
-		// get the man power cost, we don't have to produce
-		int manCostSelling = this.sellingManPowerCost(manWeekdaySelling, manWeekendSelling, month);
-		
-		// get the purchasing cost
-		double stockCost = amount * cost;
-		
-		// get the selling income
-		int sellingAmount = manWeekdaySelling * weekdaySellingAmount + manWeekendSelling * weekendSellingAmount;
-		double income = sellingAmount * price;
-		
-		// margin profit
-		double profit = income - stockCost - manCostSelling;
-		return profit;
-	}
 }
