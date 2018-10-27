@@ -183,6 +183,9 @@ public class ComFinManager {
 		
 		// get the selling income
 		int sellingAmount = manWeekdaySelling * weekdaySellingAmount + manWeekendSelling * weekendSellingAmount;
+		if(sellingAmount > produceAmount) {
+			sellingAmount = produceAmount;
+		}
 		double income = sellingAmount * price;
 		
 		// margin profit
