@@ -45,6 +45,10 @@ public class ComFinManagerTest {
 		// stub it into cfm
 		cfm = Mockito.mock(ComFinManager.class);
 		Mockito.doCallRealMethod().when(cfm).setMc(Mockito.any(MyCalendar.class));
+		Mockito.doCallRealMethod().when(cfm).setManWeekdayProduce(Mockito.anyInt());
+		Mockito.doCallRealMethod().when(cfm).setManWeekendProduce(Mockito.anyInt());
+		Mockito.doCallRealMethod().when(cfm).setManWeekdaySelling(Mockito.anyInt());
+		Mockito.doCallRealMethod().when(cfm).setManWeekendSelling(Mockito.anyInt());
 		cfm.setMc(mock_mc);
 	}
 
@@ -57,8 +61,8 @@ public class ComFinManagerTest {
 		// set
 		Mockito.doCallRealMethod().when(cfm).produceManPowerCost(Mockito.anyInt(), Mockito.anyInt(), Mockito.anyInt());
 		// 用例文件
-//		String ucPath = "PMPC_UC.uc";
-		String ucPath = "PMPC_UC_pw.uc";
+		String ucPath = "PMPC_UC.uc";
+//		String ucPath = "PMPC_UC_pw.uc";
 		
 		// 准备测试用例 PMPC_UC.uc
 		Integer i = -1;
@@ -109,7 +113,7 @@ public class ComFinManagerTest {
 		String line = br.readLine();
 		while(line != null) {
 			// process the line
-			String[] tmp = line.split(" ");
+			String[] tmp = line.split("\t");
 			int manWeekday = Integer.parseInt(tmp[1]);
 			int manWeekend = Integer.parseInt(tmp[2]);
 			int month = Integer.parseInt(tmp[3]);
@@ -143,9 +147,39 @@ public class ComFinManagerTest {
 //		String ucPath = "PS_UC_pw.uc";
 		
 		// 准备子函数stub
-		// TODO
+		// 假设在1，0，8月，300:100，400:250
 		Mockito.doCallRealMethod().when(cfm).profitsSelf(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyInt());
+		cfm.setManWeekdayProduce(300);
+		cfm.setManWeekendProduce(100);
+		cfm.setManWeekdaySelling(400);
+		cfm.setManWeekendSelling(250);
+		Mockito.doAnswer(new Answer<Integer>() {
+			public Integer answer(InvocationOnMock invocation) throws Throwable{
+				int month = invocation.getArgumentAt(2, Integer.class);
+				if(month == 0) {
+					return 786000;
+				} else if(month == 1) {
+					return 696000;
+				} else if(month == 8) {
+					return 720000;
+				}
+				return 0;
+			}
+		}).when(cfm).produceManPowerCost(Mockito.anyInt(), Mockito.anyInt(), Mockito.anyInt());
 		
+		Mockito.doAnswer(new Answer<Integer>() {
+			public Integer answer(InvocationOnMock invocation) throws Throwable{
+				int month = invocation.getArgumentAt(2, Integer.class);
+				if(month == 0) {
+					return 2340000;
+				} else if(month == 1) {
+					return 2100000;
+				} else if(month == 8) {
+					return 2225000;
+				}
+				return 0;
+			}
+		}).when(cfm).sellingManPowerCost(Mockito.anyInt(), Mockito.anyInt(), Mockito.anyInt());
 		
 		// 准备测试用例 PS_UC.uc
 		Integer i = -1;
@@ -154,7 +188,7 @@ public class ComFinManagerTest {
 		String line = br.readLine();
 		while(line != null) {
 			// process the line
-			String[] tmp = line.split(" ");
+			String[] tmp = line.split("\t");
 			double cost = Double.parseDouble(tmp[1]);
 			double price = Double.parseDouble(tmp[2]);
 			int month = Integer.parseInt(tmp[3]);

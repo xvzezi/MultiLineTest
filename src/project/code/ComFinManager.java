@@ -68,6 +68,22 @@ public class ComFinManager {
 		this.mc = myCalendar;
 	}
 	
+	public void setManWeekdayProduce(int manWeekdayProduce) {
+		this.manWeekdayProduce = manWeekdayProduce;
+	}
+
+	public void setManWeekendProduce(int manWeekendProduce) {
+		this.manWeekendProduce = manWeekendProduce;
+	}
+
+	public void setManWeekdaySelling(int manWeekdaySelling) {
+		this.manWeekdaySelling = manWeekdaySelling;
+	}
+
+	public void setManWeekendSelling(int manWeekendSelling) {
+		this.manWeekendSelling = manWeekendSelling;
+	}
+
 	/**
 	 * Man Power Cost(Salary) when producing
 	 * @param manWeekday : men amount work on weekdays
@@ -177,15 +193,23 @@ public class ComFinManager {
 		int manCostProduce = this.produceManPowerCost(manWeekdayProduce, manWeekendProduce, month);
 		int manCostSelling = this.sellingManPowerCost(manWeekdaySelling, manWeekendSelling, month);
 		
+		// get days
+		int weekends = mc.weekendsOfMonth(year, month);
+		int days = mc.daysOfMonth(year, month);
+		int weekdays = days - weekends;
+		
 		// get the producing cost
-		int produceAmount = manWeekdayProduce * weekdayProduceAmount + manWeekendProduce * weekendProduceAmount;
+		int produceAmount = manWeekdayProduce * weekdayProduceAmount * weekdays
+				+ manWeekendProduce * weekendProduceAmount * weekends;
 		double produceCost = produceAmount * cost;
 		
 		// get the selling income
-		int sellingAmount = manWeekdaySelling * weekdaySellingAmount + manWeekendSelling * weekendSellingAmount;
+		int sellingAmount = manWeekdaySelling * weekdaySellingAmount * weekdays + 
+				manWeekendSelling * weekendSellingAmount * weekends;
 		if(sellingAmount > produceAmount) {
 			sellingAmount = produceAmount;
 		}
+
 		double income = sellingAmount * price;
 		
 		// margin profit
