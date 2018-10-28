@@ -3,6 +3,7 @@ package project.test;
 import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 
 import org.junit.After;
@@ -43,7 +44,8 @@ public class ComFinManagerTest {
 		
 		// stub it into cfm
 		cfm = Mockito.mock(ComFinManager.class);
-		this.cfm.setMc(mock_mc);
+		Mockito.doCallRealMethod().when(cfm).setMc(Mockito.any(MyCalendar.class));
+		cfm.setMc(mock_mc);
 	}
 
 	@After
@@ -52,14 +54,20 @@ public class ComFinManagerTest {
 
 	@Test
 	public void testProduceManPowerCost() throws Exception {
+		// set
+		Mockito.doCallRealMethod().when(cfm).produceManPowerCost(Mockito.anyInt(), Mockito.anyInt(), Mockito.anyInt());
+		// 用例文件
+//		String ucPath = "PMPC_UC.uc";
+		String ucPath = "PMPC_UC_pw.uc";
+		
 		// 准备测试用例 PMPC_UC.uc
 		Integer i = -1;
-		FileReader fr = new FileReader("PMPC_UC.uc");
+		FileReader fr = new FileReader(ucPath);
 		BufferedReader br = new BufferedReader(fr);
 		String line = br.readLine();
 		while(line != null) {
 			// process the line
-			String[] tmp = line.split(" ");
+			String[] tmp = line.split("\t");
 			int manWeekday = Integer.parseInt(tmp[1]);
 			int manWeekend = Integer.parseInt(tmp[2]);
 			int month = Integer.parseInt(tmp[3]);
@@ -83,13 +91,20 @@ public class ComFinManagerTest {
 			// next line 
 			line = br.readLine();
 		}
+		System.out.println("Test ProduceManPowerCost "+(i+1)+" cases succeed!");
 	}
 
 	@Test
 	public void testSellingManPowerCost() throws Exception {
+		// set
+		Mockito.doCallRealMethod().when(cfm).sellingManPowerCost(Mockito.anyInt(), Mockito.anyInt(), Mockito.anyInt());
+		// 用例文件
+		String ucPath = "SMPC_UC.uc";
+//		String ucPath = "SMPC_UC_pw.uc";
+		
 		// 准备测试用例 PMPC_UC.uc
 		Integer i = -1;
-		FileReader fr = new FileReader("SMPC_UC.uc");
+		FileReader fr = new FileReader(ucPath);
 		BufferedReader br = new BufferedReader(fr);
 		String line = br.readLine();
 		while(line != null) {
@@ -118,13 +133,23 @@ public class ComFinManagerTest {
 			// next line 
 			line = br.readLine();
 		}
+		System.out.println("Test SellingManPowerCost "+(i+1)+" cases succeed!");
 	}
 
 	@Test
 	public void testProfitsSelf() throws Exception {
-		// 准备测试用例 PMPC_UC.uc
+		// 用例文件
+		String ucPath = "PS_UC.uc";
+//		String ucPath = "PS_UC_pw.uc";
+		
+		// 准备子函数stub
+		// TODO
+		Mockito.doCallRealMethod().when(cfm).profitsSelf(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyInt());
+		
+		
+		// 准备测试用例 PS_UC.uc
 		Integer i = -1;
-		FileReader fr = new FileReader("PS_UC.uc");
+		FileReader fr = new FileReader(ucPath);
 		BufferedReader br = new BufferedReader(fr);
 		String line = br.readLine();
 		while(line != null) {
