@@ -5,7 +5,10 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ ComFinManagerTest.class })
+@SuiteClasses({ 
+	ComFinManagerTest.class,
+	MyCalendarTest.class
+	})
 public class AllTests {
 
 }
