@@ -212,6 +212,7 @@ public class ComFinManagerTest {
 			// next line 
 			line = br.readLine();
 		}
+		System.out.println("Test ProfitsSelf "+(i+1)+" cases succeed!");
 	}
 
 }
