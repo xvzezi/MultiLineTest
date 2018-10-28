@@ -15,7 +15,7 @@ public class MyCalendar {
 		case 1:
 			return 31;
 		case 2:
-			if (this.isLeapYear(year))
+			if(isLeapYear(year))
 				return 29;
 			else
 				return 28;
@@ -126,6 +126,5 @@ public class MyCalendar {
 		int week = (srcYear + srcMonth + day) % 7;
 		return week;
 	}
-
 
 }
