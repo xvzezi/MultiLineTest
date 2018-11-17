@@ -32,7 +32,7 @@ public class ComFinManagerTest {
 	
 	MyCalendar mock_mc;
 	ComFinManager cfm;
-//	ComFinManagerM4 cfm;
+//	ComFinManagerM0 cfm;
 	boolean detailed = false;
 	
 	@Before
@@ -44,6 +44,9 @@ public class ComFinManagerTest {
 			public Integer answer(InvocationOnMock invocation) throws Throwable{
 				int month = invocation.getArgumentAt(1, Integer.class);
 				int[] months = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+				if(month < 0 || month > 11) {
+					return 0;
+				}
 				return months[month];
 			}
 		}).when(mock_mc).daysOfMonth(Mockito.anyInt(), Mockito.anyInt());
@@ -52,13 +55,16 @@ public class ComFinManagerTest {
 			public Integer answer(InvocationOnMock invocation) throws Throwable {
 				int month = invocation.getArgumentAt(1, Integer.class);
 				int[] months = {8, 8, 9, 9, 8, 9, 9, 8, 10, 8, 8, 10};
+				if(month < 0 || month > 11) {
+					return 0;
+				}
 				return months[month];
 			}
 		}).when(mock_mc).weekendsOfMonth(Mockito.anyInt(), Mockito.anyInt());
 		
 		// stub it into cfm
 		cfm = Mockito.mock(ComFinManager.class);
-//		cfm = Mockito.mock(ComFinManagerM4.class);
+//		cfm = Mockito.mock(ComFinManagerM0.class);
 		Mockito.doCallRealMethod().when(cfm).setMc(Mockito.any(MyCalendar.class));
 		Mockito.doCallRealMethod().when(cfm).setManWeekdayProduce(Mockito.anyInt());
 		Mockito.doCallRealMethod().when(cfm).setManWeekendProduce(Mockito.anyInt());
@@ -99,9 +105,11 @@ public class ComFinManagerTest {
 					// wrong output will cause an Exception
 					try {
 						this.cfm.produceManPowerCost(manWeekday, manWeekend, month);
+//						System.out.println("ready"+i);
 						fail("Expect Exception at index "+i); // 11.17mod
 					} catch(Exception e) {
 						// succeed to generate an Exception
+//						System.out.println("catch"+i+e.getMessage());
 					}
 				} else {
 					// expect a number output

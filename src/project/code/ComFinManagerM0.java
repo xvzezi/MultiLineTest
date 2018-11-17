@@ -22,21 +22,40 @@ public class ComFinManagerM0 {
 	 * 	On 2018, we can compute the man power cost each month on producing.
 	 */
 	public int produceManPowerCost(int manWeekday, int manWeekend, int month) throws Exception {
-		if(manWeekday < 0 || manWeekday > amountLimit) {
-			throw new Exception("Invalid man amount");
-		}
 		/***FAULT## FAILURE INDUCING CODE***/
 		/* INDUCING Detail: mutation 
 		 * ** original code **:
-		 * if(manWeekend < 0 || manWeekend > amountLimit) {
-		 * ---------------------
-		 * ** mutated code **:
-		 * if(manWeekend < 0 && manWeekend > amountLimit) {
-		 */
-		if(manWeekend < 0 && manWeekend > amountLimit) {
+		if(manWeekday < 0 || manWeekday > amountLimit) {
+			throw new Exception("Invalid man amount");
+		}
+
+		if(manWeekend < 0 || manWeekend < amountLimit) {
 			throw new Exception("Invalid man amount");
 		}
 		if(month < 0 || month > 11) {
+			throw new Exception("Month out of range");
+		}
+		 * ---------------------
+		 * ** mutated code **:
+		if(manWeekday < 0 && manWeekday > amountLimit) {
+			throw new Exception("Invalid man amount");
+		}
+
+		if(manWeekend < 0 && manWeekend < amountLimit) {
+			throw new Exception("Invalid man amount");
+		}
+		if(month < 0 && month > 11) {
+			throw new Exception("Month out of range");
+		}
+		 */
+		if(manWeekday < 0 && manWeekday > amountLimit) {
+			throw new Exception("Invalid man amount");
+		}
+
+		if(manWeekend < 0 && manWeekend > amountLimit) {
+			throw new Exception("Invalid man amount");
+		}
+		if(month < 0 && month > 11) {
 			throw new Exception("Month out of range");
 		}
 		
@@ -76,18 +95,36 @@ public class ComFinManagerM0 {
 		/***FAULT## FAILURE INDUCING CODE***/
 		/* INDUCING Detail: mutation 
 		 * ** original code **:
-		if(manWeekday < 0 || manWeekday > amountLimit)
+		if(manWeekday < 0 || manWeekday > amountLimit) {
+			throw new Exception("Invalid man amount");
+		}
+
+		if(manWeekend < 0 || manWeekend < amountLimit) {
+			throw new Exception("Invalid man amount");
+		}
+		if(month < 0 || month > 11) {
+			throw new Exception("Month out of range");
+		}
 		 * ---------------------
 		 * ** mutated code **:
-		if(manWeekday < 0 && manWeekday > amountLimit)
+		if(manWeekday < 0 && manWeekday > amountLimit) {
+			throw new Exception("Invalid man amount");
+		}
+
+		if(manWeekend < 0 && manWeekend < amountLimit) {
+			throw new Exception("Invalid man amount");
+		}
+		if(month < 0 && month > 11) {
+			throw new Exception("Month out of range");
+		}
 		 */
 		if(manWeekday < 0 && manWeekday > amountLimit) {
 			throw new Exception("Invalid man amount");
 		}
-		if(manWeekend < 0 || manWeekend > amountLimit) {
+		if(manWeekend < 0 && manWeekend > amountLimit) {
 			throw new Exception("Invalid man amount");
 		}
-		if(month < 0 || month > 11) {
+		if(month < 0 && month > 11) {
 			throw new Exception("Month out of range");
 		}
 		
@@ -128,15 +165,13 @@ public class ComFinManagerM0 {
 		if(cost < 0)
 		 * ---------------------
 		 * ** mutated code **:
-		if(cost <= 0)
+		if(cost > 0)
 		 */
-		if(cost <= 0) {
-			throw new Exception("Invalid cost");
+		if(cost > 0 && price > 0) {
+			throw new Exception("Invalid amount");
 		}
-		if(price < 0) {
-			throw new Exception("Invalid price");
-		}
-		if(month < 0 || month > 11) {
+
+		if(month < 0 && month > 11) {
 			throw new Exception("Month out of range");
 		}
 		

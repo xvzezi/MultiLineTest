@@ -41,9 +41,9 @@ public class ComFinManagerM1 {
 		 * int weekdays = days - weekends;
 		 * ---------------------
 		 * ** mutated code **:
-		 * int weekdays = days - 8;
+		 * int weekdays = days + weekends;
 		 */
-		int weekdays = days - 8;
+		int weekdays = days + weekends;
 		
 		int weekdayWage = weekdayProduceWage;
 		int weekendWage = weekendProduceWage;
@@ -92,9 +92,9 @@ public class ComFinManagerM1 {
 		 * int weekdays = days - weekends;
 		 * ---------------------
 		 * ** mutated code **:
-		 * int weekdays = days - 8;
+		 * int weekdays = days + weekends;
 		 */
-		int weekdays = days - 8;
+		int weekdays = days + weekends;
 		
 		int weekdayWage = weekdaySellingWage;
 		int weekendWage = weekendSellingWage;
@@ -129,7 +129,15 @@ public class ComFinManagerM1 {
 		if(price < 0) {
 			throw new Exception("Invalid price");
 		}
+		/***FAULT## FAILURE INDUCING CODE***/
+		/* INDUCING Detail: mutation 
+		 * ** original code **:
 		if(month < 0 || month > 11) {
+		 * ---------------------
+		 * ** mutated code **:
+		if(month < 0 && month > 11) {
+		 */
+		if(month < 0 && month > 11) {
 			throw new Exception("Month out of range");
 		}
 		
@@ -140,15 +148,8 @@ public class ComFinManagerM1 {
 		// get days
 		int weekends = mc.weekendsOfMonth(year, month);
 		int days = mc.daysOfMonth(year, month);
-		/***FAULT## FAILURE INDUCING CODE***/
-		/* INDUCING Detail: mutation 
-		 * ** original code **:
-		 * int weekdays = days - weekends;
-		 * ---------------------
-		 * ** mutated code **:
-		 * int weekdays = days + weekends;
-		 */
-		int weekdays = days + weekends;
+
+		int weekdays = days - weekends;
 		
 		// get the producing cost
 		int produceAmount = manWeekdayProduce * weekdayProduceAmount * weekdays
