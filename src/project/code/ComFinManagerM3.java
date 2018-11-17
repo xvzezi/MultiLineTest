@@ -150,18 +150,17 @@ public class ComFinManagerM3 {
 		int sellingAmount = manWeekdaySelling * weekdaySellingAmount * weekdays + 
 				manWeekendSelling * weekendSellingAmount * weekends;
 		if(sellingAmount > produceAmount) {
-			/***FAULT## FAILURE INDUCING CODE***/
-			/* INDUCING Detail: mutation 
-			 * ** original code **:
 			sellingAmount = produceAmount;
-			 * ---------------------
-			 * ** mutated code **:
-			sellingAmount = -produceAmount;
-			 */
-			sellingAmount = -produceAmount;
 		}
-
-		double income = sellingAmount * price;
+		/***FAULT## FAILURE INDUCING CODE***/
+		/* INDUCING Detail: mutation 
+		 * ** original code **:
+		double income = -sellingAmount * price;
+		 * ---------------------
+		 * ** mutated code **:
+		double income = -sellingAmount * price;
+		 */
+		double income = -sellingAmount * price;
 		
 		// margin profit
 		double profit = income - produceCost - manCostProduce - manCostSelling;

@@ -46,9 +46,9 @@ public class ComFinManagerM2 {
 		 * if(manWeekday > weekdayProduceManLimit) {
 		 * ---------------------
 		 * ** mutated code **:
-		 * if(manWeekday >= weekdayProduceManLimit) {
+		 * if(manWeekday <= weekdayProduceManLimit) {
 		 */		
-		if(manWeekday >= weekdayProduceManLimit) {
+		if(manWeekday <= weekdayProduceManLimit) {
 			weekdayWage = weekdayProduceOverWage;
 		}
 		if(manWeekend > weekendProduceManLimit) {
@@ -100,9 +100,9 @@ public class ComFinManagerM2 {
 		 * if(manWeekend > weekendSellingManLimit) {
 		 * ---------------------
 		 * ** mutated code **:
-		 * if(manWeekend >= weekendSellingManLimit) {
+		 * if(manWeekend < weekendSellingManLimit) {
 		 */		
-		if(manWeekend >= weekendSellingManLimit) {
+		if(manWeekend < weekendSellingManLimit) {
 			weekendWage = weekendSellingOverWage;
 		}
 		

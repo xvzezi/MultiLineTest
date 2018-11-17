@@ -59,9 +59,9 @@ public class ComFinManagerM4 {
 		 * weekdayCost + weekendCost
 		 * ---------------------
 		 * ** mutated code **:
-		 * weekdayCost - weekendCost
+		 * weekdayCost + weekendCost + 1
 		 */
-		return weekdayCost - weekendCost;
+		return weekdayCost + weekendCost + 1;
 	}
 	
 	/**
@@ -112,7 +112,7 @@ public class ComFinManagerM4 {
 		 * ** mutated code **:
 		 * weekdayCost
 		 */
-		return weekdayCost;
+		return weekdayCost + weekendCost + 1;
 	}
 	
 	/**
