@@ -1,96 +1,17 @@
-/**
- * Problem Description(In Chinese):
- * 	2018年，公司要求制作一个月毛利计算工具。能够计算2018年内的月
- * 毛利。
- * 	在公司中，分为生产与销售两个部分。
- * 	生产部分的成本由两部分决定。第一部分是人力资源，分为在工作日
- * 工作的一批与周末工作的一批。在工作日工作日薪为100，在周末为120；
- * 当工作日工作人人数超过300人时，根据相关规定需要涨薪，日薪为120，
- * 当周末工作人数超过100人时，日薪涨为150。工作日，每个熟练工人可
- * 以生产100产品；而周末为了保养，每人每天生产量降低至50.
- * 	第二部分是生产成本，由市场临时决定。
- * 	销售部分的成本来自于销售人员。工作日日薪为200，周末为250；同
- * 样，工作日工作人数超过400人，日薪升为250，周末工作人数超过250，
- * 日薪升为280。工作人员在工作日的销量为平均25，在周末为75.
- * 	销售模式方面是销售自己生产的物品。销售的价格由市场临时决定。
- * 	每种岗位的雇佣人数不得超过500.
- */
-
 package project.code;
-
-
-/**
- * Company Financial Manager
- * @author Xu Zezi
- * @version 1.0
- * Description:
- * 	1. adding mutation test
- * 	2. mutated codes are marked with:
- * 		***FAULT## FAILURE INDUCING CODE***
- * 	3. mutated codes are within the notes following the marker
- 
- * @oldVersion 0.5
- * Description:
- * 	1. Compute the producing man power cost
- * 	2. Compute the selling man power cost
- * 	3. Compute the self-sales margin profits
- * 	4. Compute the agent-sales margin profits
+// template
+/***FAULT## FAILURE INDUCING CODE***/
+/* INDUCING Detail: mutation 
+ * ** original code **:
+ * 
+ * ---------------------
+ * ** mutated code **:
+ * 
  */
-public class ComFinManager {
-	private static int year = 2018;
-	
-	// wages
-	private static int weekdayProduceWage = 100;
-	private static int weekendProduceWage = 120;
-	private static int weekdayProduceOverWage = 120;
-	private static int weekendProduceOverWage = 150;
-	private static int weekdaySellingWage = 200;
-	private static int weekendSellingWage = 250;
-	private static int weekdaySellingOverWage = 250;
-	private static int weekendSellingOverWage = 280;
-	
-	// workload 
-	private static int weekdayProduceAmount = 100;
-	private static int weekendProduceAmount = 50;
-	private static int weekdaySellingAmount = 25;
-	private static int weekendSellingAmount = 75;
-	
-	// man power limit
-	//	private static int manPowerLimitOnProduce = 200;
-	//	private static int manPowerLimitOnSelling = 500;
-	private static int weekdayProduceManLimit = 300;
-	private static int weekendProduceManLimit = 100;
-	private static int weekdaySellingManLimit = 400;
-	private static int weekendSellingManLimit = 250;
-	private static int amountLimit = 500;
-		
-	// runtime input
-	private int manWeekdayProduce = 0;
-	private int manWeekendProduce = 0;
-	private int manWeekdaySelling = 0;
-	private int manWeekendSelling = 0;
 
-	private MyCalendar mc;
-	public void setMc(MyCalendar myCalendar) {
-		this.mc = myCalendar;
-	}
-	
-	public void setManWeekdayProduce(int manWeekdayProduce) {
-		this.manWeekdayProduce = manWeekdayProduce;
-	}
+// Mutation 0
 
-	public void setManWeekendProduce(int manWeekendProduce) {
-		this.manWeekendProduce = manWeekendProduce;
-	}
-
-	public void setManWeekdaySelling(int manWeekdaySelling) {
-		this.manWeekdaySelling = manWeekdaySelling;
-	}
-
-	public void setManWeekendSelling(int manWeekendSelling) {
-		this.manWeekendSelling = manWeekendSelling;
-	}
-
+public class ComFinManagerM2 {
 	/**
 	 * Man Power Cost(Salary) when producing
 	 * @param manWeekday : men amount work on weekdays
@@ -119,7 +40,15 @@ public class ComFinManager {
 		int weekdayWage = weekdayProduceWage;
 		int weekendWage = weekendProduceWage;
 		
-		if(manWeekday > weekdayProduceManLimit) {
+		/***FAULT## FAILURE INDUCING CODE***/
+		/* INDUCING Detail: mutation 
+		 * ** original code **:
+		 * if(manWeekday > weekdayProduceManLimit) {
+		 * ---------------------
+		 * ** mutated code **:
+		 * if(manWeekday >= weekdayProduceManLimit) {
+		 */		
+		if(manWeekday >= weekdayProduceManLimit) {
 			weekdayWage = weekdayProduceOverWage;
 		}
 		if(manWeekend > weekendProduceManLimit) {
@@ -165,7 +94,15 @@ public class ComFinManager {
 		if(manWeekday > weekdaySellingManLimit) {
 			weekdayWage = weekdaySellingOverWage;
 		}
-		if(manWeekend > weekendSellingManLimit) {
+		/***FAULT## FAILURE INDUCING CODE***/
+		/* INDUCING Detail: mutation 
+		 * ** original code **:
+		 * if(manWeekend > weekendSellingManLimit) {
+		 * ---------------------
+		 * ** mutated code **:
+		 * if(manWeekend >= weekendSellingManLimit) {
+		 */		
+		if(manWeekend >= weekendSellingManLimit) {
 			weekendWage = weekendSellingOverWage;
 		}
 		
@@ -220,8 +157,70 @@ public class ComFinManager {
 		double income = sellingAmount * price;
 		
 		// margin profit
+		/***FAULT## FAILURE INDUCING CODE***/
+		/* INDUCING Detail: mutation 
+		 * ** original code **:
 		double profit = income - produceCost - manCostProduce - manCostSelling;
+		 * ---------------------
+		 * ** mutated code **:
+		double profit = income + produceCost - manCostProduce - manCostSelling;
+		 */		
+		double profit = income + produceCost - manCostProduce - manCostSelling;
 		return profit;
 	}
 	
+	
+	private static int year = 2018;
+	
+	// wages
+	private static int weekdayProduceWage = 100;
+	private static int weekendProduceWage = 120;
+	private static int weekdayProduceOverWage = 120;
+	private static int weekendProduceOverWage = 150;
+	private static int weekdaySellingWage = 200;
+	private static int weekendSellingWage = 250;
+	private static int weekdaySellingOverWage = 250;
+	private static int weekendSellingOverWage = 280;
+	
+	// workload 
+	private static int weekdayProduceAmount = 100;
+	private static int weekendProduceAmount = 50;
+	private static int weekdaySellingAmount = 25;
+	private static int weekendSellingAmount = 75;
+	
+	// man power limit
+	//	private static int manPowerLimitOnProduce = 200;
+	//	private static int manPowerLimitOnSelling = 500;
+	private static int weekdayProduceManLimit = 300;
+	private static int weekendProduceManLimit = 100;
+	private static int weekdaySellingManLimit = 400;
+	private static int weekendSellingManLimit = 250;
+	private static int amountLimit = 500;
+		
+	// runtime input
+	private int manWeekdayProduce = 0;
+	private int manWeekendProduce = 0;
+	private int manWeekdaySelling = 0;
+	private int manWeekendSelling = 0;
+
+	private MyCalendar mc;
+	public void setMc(MyCalendar myCalendar) {
+		this.mc = myCalendar;
+	}
+	
+	public void setManWeekdayProduce(int manWeekdayProduce) {
+		this.manWeekdayProduce = manWeekdayProduce;
+	}
+
+	public void setManWeekendProduce(int manWeekendProduce) {
+		this.manWeekendProduce = manWeekendProduce;
+	}
+
+	public void setManWeekdaySelling(int manWeekdaySelling) {
+		this.manWeekdaySelling = manWeekdaySelling;
+	}
+
+	public void setManWeekendSelling(int manWeekendSelling) {
+		this.manWeekendSelling = manWeekendSelling;
+	}
 }

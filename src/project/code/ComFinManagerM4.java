@@ -1,42 +1,175 @@
-/**
- * Problem Description(In Chinese):
- * 	2018年，公司要求制作一个月毛利计算工具。能够计算2018年内的月
- * 毛利。
- * 	在公司中，分为生产与销售两个部分。
- * 	生产部分的成本由两部分决定。第一部分是人力资源，分为在工作日
- * 工作的一批与周末工作的一批。在工作日工作日薪为100，在周末为120；
- * 当工作日工作人人数超过300人时，根据相关规定需要涨薪，日薪为120，
- * 当周末工作人数超过100人时，日薪涨为150。工作日，每个熟练工人可
- * 以生产100产品；而周末为了保养，每人每天生产量降低至50.
- * 	第二部分是生产成本，由市场临时决定。
- * 	销售部分的成本来自于销售人员。工作日日薪为200，周末为250；同
- * 样，工作日工作人数超过400人，日薪升为250，周末工作人数超过250，
- * 日薪升为280。工作人员在工作日的销量为平均25，在周末为75.
- * 	销售模式方面是销售自己生产的物品。销售的价格由市场临时决定。
- * 	每种岗位的雇佣人数不得超过500.
- */
-
 package project.code;
-
-
-/**
- * Company Financial Manager
- * @author Xu Zezi
- * @version 1.0
- * Description:
- * 	1. adding mutation test
- * 	2. mutated codes are marked with:
- * 		***FAULT## FAILURE INDUCING CODE***
- * 	3. mutated codes are within the notes following the marker
- 
- * @oldVersion 0.5
- * Description:
- * 	1. Compute the producing man power cost
- * 	2. Compute the selling man power cost
- * 	3. Compute the self-sales margin profits
- * 	4. Compute the agent-sales margin profits
+// template
+/***FAULT## FAILURE INDUCING CODE***/
+/* INDUCING Detail: mutation 
+ * ** original code **:
+ * 
+ * ---------------------
+ * ** mutated code **:
+ * 
  */
-public class ComFinManager {
+
+// Mutation 0
+
+public class ComFinManagerM4 {
+	/**
+	 * Man Power Cost(Salary) when producing
+	 * @param manWeekday : men amount work on weekdays
+	 * @param manWeekend : men amount work on weekends
+	 * @param month : the month want to calculate
+	 * @return the total salary company have to pay for men power a month
+	 * Description:
+	 * 	On 2018, we can compute the man power cost each month on producing.
+	 */
+	public int produceManPowerCost(int manWeekday, int manWeekend, int month) throws Exception {
+		if(manWeekday < 0 || manWeekday > amountLimit) {
+			throw new Exception("Invalid man amount");
+		}
+		if(manWeekend < 0 || manWeekend > amountLimit) {
+			throw new Exception("Invalid man amount");
+		}
+
+		if(month < 0 || month > 11) {
+			throw new Exception("Month out of range");
+		}
+		
+		int weekends = mc.weekendsOfMonth(year, month);
+		int days = mc.daysOfMonth(year, month);
+		int weekdays = days - weekends;
+		
+		int weekdayWage = weekdayProduceWage;
+		int weekendWage = weekendProduceWage;
+		
+		if(manWeekday > weekdayProduceManLimit) {
+			weekdayWage = weekdayProduceOverWage;
+		}
+		if(manWeekend > weekendProduceManLimit) {
+			weekendWage = weekendProduceOverWage;
+		}
+		
+		int weekdayCost = weekdays * manWeekday * weekdayWage;
+		int weekendCost = weekends * manWeekend * weekendWage;
+		
+		manWeekdayProduce = manWeekday;
+		manWeekendProduce = manWeekend;
+		
+		/***FAULT## FAILURE INDUCING CODE***/
+		/* INDUCING Detail: mutation 
+		 * ** original code **:
+		 * weekdayCost + weekendCost
+		 * ---------------------
+		 * ** mutated code **:
+		 * weekdayCost - weekendCost
+		 */
+		return weekdayCost - weekendCost;
+	}
+	
+	/**
+	 * Man Power Cost(Salary) when selling
+	 * @param manWeekday : men work on weekdays
+	 * @param manWeekend : men work on weekends
+	 * @param month : the month wants to calculate
+	 * @return the total wages have to pay
+	 * Description:
+	 * 	In 2018, we can compute the man power cost each month on selling.
+	 */
+	public int sellingManPowerCost(int manWeekday, int manWeekend, int month) throws Exception{
+		if(manWeekday < 0 || manWeekday > amountLimit) {
+			throw new Exception("Invalid man amount");
+		}
+		if(manWeekend < 0 || manWeekend > amountLimit) {
+			throw new Exception("Invalid man amount");
+		}
+		if(month < 0 || month > 11) {
+			throw new Exception("Month out of range");
+		}
+		
+		int weekends = mc.weekendsOfMonth(year, month);
+		int days = mc.daysOfMonth(year, month);
+		int weekdays = days - weekends;
+		
+		int weekdayWage = weekdaySellingWage;
+		int weekendWage = weekendSellingWage;
+		
+		if(manWeekday > weekdaySellingManLimit) {
+			weekdayWage = weekdaySellingOverWage;
+		}
+		if(manWeekend > weekendSellingManLimit) {
+			weekendWage = weekendSellingOverWage;
+		}
+		
+		int weekdayCost = weekdays * manWeekday * weekdayWage;
+		int weekendCost = weekends * manWeekend * weekendWage;
+		
+		manWeekdaySelling = manWeekday;
+		manWeekendSelling = manWeekend;
+		
+		/***FAULT## FAILURE INDUCING CODE***/
+		/* INDUCING Detail: mutation 
+		 * ** original code **:
+		 * weekdayCost + weekendCost
+		 * ---------------------
+		 * ** mutated code **:
+		 * weekdayCost
+		 */
+		return weekdayCost;
+	}
+	
+	/**
+	 * Profits when self-producing and self-selling
+	 * @param cost : cost of each product
+	 * @param price : price of each product
+	 * @param month : the target month
+	 * @return the margin profits
+	 */
+	public double profitsSelf(double cost, double price, int month) throws Exception{
+		if(cost < 0) {
+			throw new Exception("Invalid cost");
+		}
+		if(price < 0) {
+			throw new Exception("Invalid price");
+		}
+		if(month < 0 || month > 11) {
+			throw new Exception("Month out of range");
+		}
+		
+		// get the man power cost
+		int manCostProduce = this.produceManPowerCost(manWeekdayProduce, manWeekendProduce, month);
+		int manCostSelling = this.sellingManPowerCost(manWeekdaySelling, manWeekendSelling, month);
+		
+		// get days
+		int weekends = mc.weekendsOfMonth(year, month);
+		int days = mc.daysOfMonth(year, month);
+		int weekdays = days - weekends;
+		
+		// get the producing cost
+		int produceAmount = manWeekdayProduce * weekdayProduceAmount * weekdays
+				+ manWeekendProduce * weekendProduceAmount * weekends;
+		double produceCost = produceAmount * cost;
+		
+		// get the selling income
+		int sellingAmount = manWeekdaySelling * weekdaySellingAmount * weekdays + 
+				manWeekendSelling * weekendSellingAmount * weekends;
+		if(sellingAmount > produceAmount) {
+			sellingAmount = produceAmount;
+		}
+
+		double income = sellingAmount * price;
+		
+		// margin profit
+		double profit = income - produceCost - manCostProduce - manCostSelling;
+		/***FAULT## FAILURE INDUCING CODE***/
+		/* INDUCING Detail: mutation 
+		 * ** original code **:
+		 * weekdayCost + weekendCost
+		 * ---------------------
+		 * ** mutated code **:
+		 * weekdayCost
+		 */
+		return profit + 0.1;
+	}
+	
+	
 	private static int year = 2018;
 	
 	// wages
@@ -90,138 +223,4 @@ public class ComFinManager {
 	public void setManWeekendSelling(int manWeekendSelling) {
 		this.manWeekendSelling = manWeekendSelling;
 	}
-
-	/**
-	 * Man Power Cost(Salary) when producing
-	 * @param manWeekday : men amount work on weekdays
-	 * @param manWeekend : men amount work on weekends
-	 * @param month : the month want to calculate
-	 * @return the total salary company have to pay for men power a month
-	 * Description:
-	 * 	On 2018, we can compute the man power cost each month on producing.
-	 */
-	public int produceManPowerCost(int manWeekday, int manWeekend, int month) throws Exception {
-		if(manWeekday < 0 || manWeekday > amountLimit) {
-			throw new Exception("Invalid man amount");
-		}
-		if(manWeekend < 0 || manWeekend > amountLimit) {
-			throw new Exception("Invalid man amount");
-		}
-
-		if(month < 0 || month > 11) {
-			throw new Exception("Month out of range");
-		}
-		
-		int weekends = mc.weekendsOfMonth(year, month);
-		int days = mc.daysOfMonth(year, month);
-		int weekdays = days - weekends;
-		
-		int weekdayWage = weekdayProduceWage;
-		int weekendWage = weekendProduceWage;
-		
-		if(manWeekday > weekdayProduceManLimit) {
-			weekdayWage = weekdayProduceOverWage;
-		}
-		if(manWeekend > weekendProduceManLimit) {
-			weekendWage = weekendProduceOverWage;
-		}
-		
-		int weekdayCost = weekdays * manWeekday * weekdayWage;
-		int weekendCost = weekends * manWeekend * weekendWage;
-		
-		manWeekdayProduce = manWeekday;
-		manWeekendProduce = manWeekend;
-		
-		return weekdayCost + weekendCost;
-	}
-	
-	/**
-	 * Man Power Cost(Salary) when selling
-	 * @param manWeekday : men work on weekdays
-	 * @param manWeekend : men work on weekends
-	 * @param month : the month wants to calculate
-	 * @return the total wages have to pay
-	 * Description:
-	 * 	In 2018, we can compute the man power cost each month on selling.
-	 */
-	public int sellingManPowerCost(int manWeekday, int manWeekend, int month) throws Exception{
-		if(manWeekday < 0 || manWeekday > amountLimit) {
-			throw new Exception("Invalid man amount");
-		}
-		if(manWeekend < 0 || manWeekend > amountLimit) {
-			throw new Exception("Invalid man amount");
-		}
-		if(month < 0 || month > 11) {
-			throw new Exception("Month out of range");
-		}
-		
-		int weekends = mc.weekendsOfMonth(year, month);
-		int days = mc.daysOfMonth(year, month);
-		int weekdays = days - weekends;
-		
-		int weekdayWage = weekdaySellingWage;
-		int weekendWage = weekendSellingWage;
-		
-		if(manWeekday > weekdaySellingManLimit) {
-			weekdayWage = weekdaySellingOverWage;
-		}
-		if(manWeekend > weekendSellingManLimit) {
-			weekendWage = weekendSellingOverWage;
-		}
-		
-		int weekdayCost = weekdays * manWeekday * weekdayWage;
-		int weekendCost = weekends * manWeekend * weekendWage;
-		
-		manWeekdaySelling = manWeekday;
-		manWeekendSelling = manWeekend;
-		
-		return weekdayCost + weekendCost;
-	}
-	
-	/**
-	 * Profits when self-producing and self-selling
-	 * @param cost : cost of each product
-	 * @param price : price of each product
-	 * @param month : the target month
-	 * @return the margin profits
-	 */
-	public double profitsSelf(double cost, double price, int month) throws Exception{
-		if(cost < 0) {
-			throw new Exception("Invalid cost");
-		}
-		if(price < 0) {
-			throw new Exception("Invalid price");
-		}
-		if(month < 0 || month > 11) {
-			throw new Exception("Month out of range");
-		}
-		
-		// get the man power cost
-		int manCostProduce = this.produceManPowerCost(manWeekdayProduce, manWeekendProduce, month);
-		int manCostSelling = this.sellingManPowerCost(manWeekdaySelling, manWeekendSelling, month);
-		
-		// get days
-		int weekends = mc.weekendsOfMonth(year, month);
-		int days = mc.daysOfMonth(year, month);
-		int weekdays = days - weekends;
-		
-		// get the producing cost
-		int produceAmount = manWeekdayProduce * weekdayProduceAmount * weekdays
-				+ manWeekendProduce * weekendProduceAmount * weekends;
-		double produceCost = produceAmount * cost;
-		
-		// get the selling income
-		int sellingAmount = manWeekdaySelling * weekdaySellingAmount * weekdays + 
-				manWeekendSelling * weekendSellingAmount * weekends;
-		if(sellingAmount > produceAmount) {
-			sellingAmount = produceAmount;
-		}
-
-		double income = sellingAmount * price;
-		
-		// margin profit
-		double profit = income - produceCost - manCostProduce - manCostSelling;
-		return profit;
-	}
-	
 }
