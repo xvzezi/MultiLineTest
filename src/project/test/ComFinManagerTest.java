@@ -16,6 +16,13 @@ import org.mockito.stubbing.Answer;
 import project.code.ComFinManager;
 import project.code.MyCalendar;
 
+
+/* 11.17 update:
+	modify the failure code. now we allow 
+all the tests run down even if one test case
+fails during the test. we will show all the 
+info in the end.
+*/
 public class ComFinManagerTest {
 	
 	MyCalendar mock_mc;
@@ -69,6 +76,8 @@ public class ComFinManagerTest {
 		FileReader fr = new FileReader(ucPath);
 		BufferedReader br = new BufferedReader(fr);
 		String line = br.readLine();
+		// 准备用例计数11.17mod
+		int bad_uc = 0;
 		while(line != null) {
 			// process the line
 			String[] tmp = line.split("\t");
@@ -80,7 +89,8 @@ public class ComFinManagerTest {
 				// wrong output will cause an Exception
 				try {
 					this.cfm.produceManPowerCost(manWeekday, manWeekend, month);
-					fail("Expect Exception at index "+i);
+					// fail("Expect Exception at index "+i); // 11.17mod
+					bad_uc++;	// 11.17mod
 				} catch(Exception e) {
 					// succeed to generate an Exception
 				}
@@ -88,14 +98,21 @@ public class ComFinManagerTest {
 				// expect a number output
 				int expect = Integer.parseInt(tmp[0]);
 				// test
-				assertEquals("Expect "+expect+" at index "+i, 
-						expect, this.cfm.produceManPowerCost(manWeekday, manWeekend, month));
+				// assertEquals("Expect "+expect+" at index "+i, 
+				// 		expect, this.cfm.produceManPowerCost(manWeekday, manWeekend, month));//11.17mod
+				if(expect != this.cfm.produceManPowerCost(manWeekday, manWeekend, month)) {
+					bad_uc++;
+				}//11.17mod
 			}
 			
 			// next line 
 			line = br.readLine();
 		}
-		System.out.println("Test ProduceManPowerCost "+(i+1)+" cases succeed!");
+		// System.out.println("Test ProduceManPowerCost "+(i+1)+" cases succeed!");//11.17mod
+		System.out.println("Test ProduceManPowerCost - Fail "+bad_uc+", Succ "+(i+1-bad_uc));
+		if(bad_uc != 0) {
+			fail("Fail with "+bad_uc+" test cases");
+		}
 	}
 
 	@Test
@@ -111,6 +128,8 @@ public class ComFinManagerTest {
 		FileReader fr = new FileReader(ucPath);
 		BufferedReader br = new BufferedReader(fr);
 		String line = br.readLine();
+		// 准备用例计数11.17mod
+		int bad_uc = 0;
 		while(line != null) {
 			// process the line
 			String[] tmp = line.split("\t");
@@ -122,7 +141,8 @@ public class ComFinManagerTest {
 				// wrong output will cause an Exception
 				try {
 					this.cfm.sellingManPowerCost(manWeekday, manWeekend, month);
-					fail("Expect Exception at index "+i);
+					//fail("Expect Exception at index "+i);//11.17
+					bad_uc++;//11.17
 				} catch(Exception e) {
 					// succeed to generate an Exception
 				}
@@ -130,14 +150,21 @@ public class ComFinManagerTest {
 				// expect a number output
 				int expect = Integer.parseInt(tmp[0]);
 				// test
-				assertEquals("Expect "+expect+" at index "+i, 
-						expect, this.cfm.sellingManPowerCost(manWeekday, manWeekend, month));
+				//assertEquals("Expect "+expect+" at index "+i, 
+				//		expect, this.cfm.sellingManPowerCost(manWeekday, manWeekend, month));//11.17
+				if(expect != this.cfm.sellingManPowerCost(manWeekday, manWeekend, month)) {
+					bad_uc++;
+				}//11.17mod
 			}
 			
 			// next line 
 			line = br.readLine();
 		}
-		System.out.println("Test SellingManPowerCost "+(i+1)+" cases succeed!");
+		//System.out.println("Test SellingManPowerCost "+(i+1)+" cases succeed!");//11.17
+		System.out.println("Test SellingManPowerCost - Fail "+bad_uc+", Succ "+(i+1-bad_uc));
+		if(bad_uc != 0) {
+			fail("Fail with "+bad_uc+" test cases");
+		}//11.17
 	}
 
 	@Test
@@ -186,6 +213,8 @@ public class ComFinManagerTest {
 		FileReader fr = new FileReader(ucPath);
 		BufferedReader br = new BufferedReader(fr);
 		String line = br.readLine();
+		// 准备用例计数11.17
+		int bad_uc = 0;
 		while(line != null) {
 			// process the line
 			String[] tmp = line.split("\t");
@@ -197,7 +226,8 @@ public class ComFinManagerTest {
 				// wrong output will cause an Exception
 				try {
 					this.cfm.profitsSelf(cost, price, month);
-					fail("Expect Exception at index "+i);
+					//fail("Expect Exception at index "+i);//11.17
+					bad_uc++;//11.17
 				} catch(Exception e) {
 					// succeed to generate an Exception
 				}
@@ -205,14 +235,21 @@ public class ComFinManagerTest {
 				// expect a number output
 				double expect = Double.parseDouble(tmp[0]);
 				// test
-				assertEquals("Expect "+expect+" at index "+i, 
-						expect, this.cfm.profitsSelf(cost, price, month), 1e-8);
+				//assertEquals("Expect "+expect+" at index "+i, 
+				//		expect, this.cfm.profitsSelf(cost, price, month), 1e-8);//11.17
+				if(Math.abs(expect - this.cfm.profitsSelf(cost, price, month)) > 1e-8) {
+					bad_uc++;
+				}//11.17mod
 			}
 			
 			// next line 
 			line = br.readLine();
 		}
-		System.out.println("Test ProfitsSelf "+(i+1)+" cases succeed!");
+		//System.out.println("Test ProfitsSelf "+(i+1)+" cases succeed!");//11.17
+		System.out.println("Test ProfitsSelf - Fail "+bad_uc+", Succ "+(i+1-bad_uc));
+		if(bad_uc != 0) {
+			fail("Fail with "+bad_uc+" test cases");
+		}//11.17
 	}
 
 }
