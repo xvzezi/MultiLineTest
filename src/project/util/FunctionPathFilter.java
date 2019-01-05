@@ -10,7 +10,13 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Random;
+/**
+ * Function Path Filter
+ * @author Xu Zezi
+ * @version 0.1
+ * Description:
 
+ */
 public class FunctionPathFilter {
 	public FunctionPathFilter(String test_case_file) throws Exception {
 		// 1. read in the UC_ALL_PATH.uc

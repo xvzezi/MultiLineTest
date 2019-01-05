@@ -89,7 +89,7 @@ public class ComFinManagerTest {
 
 	@AfterClass
 	public static void tearDown() throws Exception {
-		fpm.generateTestCases("UC_ALL_PATH.uc");
+//		fpm.generateTestCases("UC_ALL_PATH.uc");
 	}
 
 	@Test
